@@ -1,0 +1,47 @@
+name: Build Windows package
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - name: Check out project
+        uses: actions/checkout@v4
+
+      - name: Extract uploaded project archive
+        shell: pwsh
+        run: >-
+          Expand-Archive
+          -Path "$env:GITHUB_WORKSPACE/RA2311003011025_Workbench_with_Appendix.zip"
+          -DestinationPath "$env:GITHUB_WORKSPACE/project"
+          -Force
+
+      - name: Install Qt 5.15.2 for MSVC 2019 x64
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '5.15.2'
+          host: windows
+          target: desktop
+          arch: win64_msvc2019_64
+          cache: true
+
+      - name: Build, test, and package
+        shell: pwsh
+        run: |
+          Set-Location "$env:GITHUB_WORKSPACE/project"
+          .\packaging\windows\Build-WindowsPackage.ps1 -CandidateId RA2311003011025 -QtRoot "$env:QT_ROOT_DIR"
+
+      - name: Upload Windows package
+        uses: actions/upload-artifact@v4
+        with:
+          name: RA2311003011025_Workbench_Windows_x64
+          path: project/build/package/RA2311003011025_Workbench.zip
+          if-no-files-found: error
+          retention-days: 14
