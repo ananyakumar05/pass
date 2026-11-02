@@ -1,0 +1,11 @@
+95d8c1d (HEAD -> main) fix(ui): show thermal convergence values on macOS
+ac3f072 docs(packaging): prepare report and Windows handoff
+f3c630d feat(results): add verified FEM outputs and reproducible checks
+0ad1a34 fix(ui): capture and correct module workflows
+5f7ec32 feat(ui): add unified engineering workbench desktop app
+c6ce28c feat(hardware): add simulated device adapters
+f03a37b feat(neural): add manual backpropagation and checks
+50c0efe feat(performance): add reproducible parallel benchmark
+aaa51c7 feat(geometry): parse ASCII STL and temperature CSV
+7f4a783 feat(thermal): add verified one-dimensional FEM solver
+0c52006 docs: establish workbench architecture and phase plan
